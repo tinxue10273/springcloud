@@ -93,7 +93,7 @@ public class CommentService {
         event.setData(data);
         if (comment.getEntityType() == ENTITY_TYPE_POST) {
             DiscussPostDO target = discussPostDORepository.get(comment.getEntityId());
-            event.setEntityUserId(target.getUserId());
+            event.setEntityUserId(Integer.valueOf(target.getUserId()));
         } else if (comment.getEntityType() == ENTITY_TYPE_COMMENT) {
             CommentDO target = commonDORepository.get(comment.getEntityId());
             event.setEntityUserId(target.getUserId());

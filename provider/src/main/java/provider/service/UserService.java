@@ -208,13 +208,6 @@ public class UserService {
         return JsonTool.fromJson((String) redisTemplate.opsForValue().get(redisKey), TicketVO.class);
     }
 
-    public BaseResponse updateHeader(int userId, String headerUrl) {
-        if(!userDORepository.updateHeader(userId, headerUrl)){
-            return CycleErrorCode.UPDATE_ERROR.getResponse();
-        }
-        return BaseResponse.builder().success(true).build();
-    }
-
     public UserVO findUserByName(String username) {
         UserDO user = userDORepository.getByName(username);
         if(ObjectUtils.isEmpty(user)){
@@ -254,11 +247,7 @@ public class UserService {
     }
 
     public BaseResponse setUrl(UserRequest request) {
-        UserVO user =  hostHolder.getUser();
-        if(userDORepository.updateHeader(user.getId(), request.getUser().getHeaderUrl())){
-            return BaseResponse.builder().success(true).build();
-        }
-        return BaseResponse.builder().success(false).build();
+        return BaseResponse.builder().success(true).build();
     }
 
     public BaseResponse getProfilePage(UserRequest request) {

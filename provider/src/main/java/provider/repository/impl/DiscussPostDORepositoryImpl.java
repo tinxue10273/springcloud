@@ -1,6 +1,8 @@
 package provider.repository.impl;
 
+import org.apache.ibatis.session.RowBounds;
 import provider.domain.DiscussPostDO;
+import provider.domain.DiscussPostDOExample;
 import provider.repository.DiscussPostDORepository;
 import provider.repository.mapper.DiscussPostDOMapper;
 import provider.vo.DiscussPostVO;
@@ -30,21 +32,22 @@ public class DiscussPostDORepositoryImpl implements DiscussPostDORepository {
     }
 
     public int update(DiscussPostVO post) {
+        int id = post.getId();
         if(!ObjectUtils.isEmpty(post.getType())){
             try {
-                return discussPostDOMapper.updateType(post.getId(), post.getType());
+                return discussPostDOMapper.updateType(id, post.getType());
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }else if(!ObjectUtils.isEmpty(post.getStatus())){
             try {
-                return discussPostDOMapper.updateStatus(post.getId(), post.getStatus());
+                return discussPostDOMapper.updateStatus(id, post.getStatus());
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }else if(!ObjectUtils.isEmpty(post.getScore())){
             try {
-                return discussPostDOMapper.updateScore(post.getId(), post.getScore());
+                return discussPostDOMapper.updateScore(id, post.getScore());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -54,7 +57,13 @@ public class DiscussPostDORepositoryImpl implements DiscussPostDORepository {
 
     public DiscussPostDO get(int id) {
         try {
-            return discussPostDOMapper.selectDiscussPostById(id);
+            DiscussPostDOExample example = new DiscussPostDOExample();
+            DiscussPostDOExample.Criteria criteria = example.createCriteria();
+            criteria.andIdEqualTo(id);
+            List<DiscussPostDO> discussPostDOS = discussPostDOMapper.selectByExampleWithBLOBs(example);
+            if(0 != discussPostDOS.size()){
+                return discussPostDOS.get(0);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -63,7 +72,7 @@ public class DiscussPostDORepositoryImpl implements DiscussPostDORepository {
 
     public boolean insert(DiscussPostDO post) {
         try {
-            return discussPostDOMapper.insertDiscussPost(post) == 1;
+            return 0 == discussPostDOMapper.insertSelective(post);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,19 +81,26 @@ public class DiscussPostDORepositoryImpl implements DiscussPostDORepository {
 
     public int countByUser(int userId) {
         try {
-            return discussPostDOMapper.selectDiscussPostRows(userId);
+            DiscussPostDOExample example = new DiscussPostDOExample();
+            DiscussPostDOExample.Criteria criteria = example.createCriteria();
+            criteria.andUserIdEqualTo(userId + "");
+            Long  count = discussPostDOMapper.countByExample(example);
+            return count.intValue();
         } catch (Exception e) {
             e.printStackTrace();
+            return 0;
         }
-        return 0;
     }
 
     public List<DiscussPostDO> list(int userId, int offset, int limit, int orderMode) {
         try {
-            return discussPostDOMapper.selectDiscussPosts(userId, offset, limit);
+            DiscussPostDOExample example = new DiscussPostDOExample();
+            DiscussPostDOExample.Criteria criteria = example.createCriteria();
+            criteria.andUserIdEqualTo(userId + "");
+            return discussPostDOMapper.selectByExampleWithBLOBsWithRowbounds(example, new RowBounds(offset, limit));
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 }

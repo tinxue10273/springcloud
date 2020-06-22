@@ -1,11 +1,14 @@
 package provider.repository.mapper;
 
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 import provider.domain.DiscussPostDO;
 import provider.domain.DiscussPostDOExample;
 
+@Mapper
 public interface DiscussPostDOMapper {
     long countByExample(DiscussPostDOExample example);
 
@@ -28,4 +31,14 @@ public interface DiscussPostDOMapper {
     int updateByExampleWithBLOBs(@Param("record") DiscussPostDO record, @Param("example") DiscussPostDOExample example);
 
     int updateByExample(@Param("record") DiscussPostDO record, @Param("example") DiscussPostDOExample example);
+
+    // 自定义 函数
+
+    int updateCommentCount(@Param("id") int id, @Param("commentCount") int commentCount);
+
+    int updateType(@Param("id") int id, @Param("type") int type);
+
+    int updateStatus(@Param("id") int id, @Param("status") int status);
+
+    int updateScore(@Param("id") int id, @Param("score") double score);
 }

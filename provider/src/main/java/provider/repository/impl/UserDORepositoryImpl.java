@@ -1,11 +1,15 @@
 package provider.repository.impl;
 
+import org.springframework.util.ObjectUtils;
 import provider.domain.UserDO;
+import provider.domain.UserDOExample;
 import provider.repository.UserDORepository;
 import provider.repository.mapper.UserDOMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @authorgouhuo on 2020/04/27.
@@ -18,7 +22,13 @@ public class UserDORepositoryImpl implements UserDORepository {
 
     public UserDO get(Integer targetId) {
         try {
-            return userDOMapper.selectById(targetId);
+            UserDOExample example = new UserDOExample();
+            UserDOExample.Criteria criteria =  example.createCriteria();
+            criteria.andIdEqualTo(targetId);
+            List<UserDO> userDOS = userDOMapper.selectByExample(example);
+            if(!ObjectUtils.isEmpty(userDOS)){
+                return userDOS.get(0);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -27,7 +37,13 @@ public class UserDORepositoryImpl implements UserDORepository {
 
     public UserDO getById(int id) {
         try {
-            return userDOMapper.selectById(id);
+            UserDOExample example = new UserDOExample();
+            UserDOExample.Criteria criteria =  example.createCriteria();
+            criteria.andIdEqualTo(id);
+            List<UserDO> userDOS = userDOMapper.selectByExample(example);
+            if(!ObjectUtils.isEmpty(userDOS)){
+                return userDOS.get(0);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -36,7 +52,13 @@ public class UserDORepositoryImpl implements UserDORepository {
 
     public UserDO getByName(String username) {
         try {
-            return userDOMapper.selectByName(username);
+            UserDOExample example = new UserDOExample();
+            UserDOExample.Criteria criteria =  example.createCriteria();
+            criteria.andUsernameEqualTo(username);
+            List<UserDO> userDOS = userDOMapper.selectByExample(example);
+            if(!ObjectUtils.isEmpty(userDOS)){
+                return userDOS.get(0);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -45,7 +67,13 @@ public class UserDORepositoryImpl implements UserDORepository {
 
     public UserDO getByEmail(String email) {
         try {
-            return userDOMapper.selectByEmail(email);
+            UserDOExample example = new UserDOExample();
+            UserDOExample.Criteria criteria =  example.createCriteria();
+            criteria.andEmailEqualTo(email);
+            List<UserDO> userDOS = userDOMapper.selectByExample(example);
+            if(!ObjectUtils.isEmpty(userDOS)){
+                return userDOS.get(0);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -54,7 +82,7 @@ public class UserDORepositoryImpl implements UserDORepository {
 
     public boolean add(UserDO user) {
         try {
-            return userDOMapper.insertUser(user) == 1;
+            return 1 == userDOMapper.insertSelective(user);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -64,15 +92,6 @@ public class UserDORepositoryImpl implements UserDORepository {
     public boolean updateStatus(int userId, int i) {
         try {
             return userDOMapper.updateStatus(userId, i) == 1 ;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public boolean updateHeader(int userId, String headerUrl) {
-        try {
-            return userDOMapper.updateHeader(userId, headerUrl) == 1;
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,6 +1,9 @@
 package provider.repository.impl;
 
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.util.ObjectUtils;
 import provider.domain.MessageDO;
+import provider.domain.MessageDOExample;
 import provider.repository.MessageDORepository;
 import provider.repository.mapper.MessageDOMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +23,14 @@ public class MessageDORepositoryImpl implements MessageDORepository {
 
     public List<MessageDO> listNotices(int userId, String topic, int offset, int limit) {
         try {
-            return messageDOMapper.selectNotices(userId, topic, offset, limit);
+            MessageDOExample example = new MessageDOExample();
+            MessageDOExample.Criteria criteria = example.createCriteria();
+            criteria.andToIdEqualTo(userId);
+            criteria.andFromIdEqualTo(1);
+            criteria.andStatusNotEqualTo(2);
+            criteria.andConversationIdEqualTo(topic);
+            example.setOrderByClause("id desc");
+            return messageDOMapper.selectByExampleWithBLOBsWithRowbounds(example, new RowBounds(offset, limit));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -29,7 +39,14 @@ public class MessageDORepositoryImpl implements MessageDORepository {
 
     public int countUnreadNotice(int userId, String topic) {
         try {
-            return messageDOMapper.selectNoticeUnreadCount(userId, topic);
+            MessageDOExample example = new MessageDOExample();
+            MessageDOExample.Criteria criteria = example.createCriteria();
+            criteria.andToIdEqualTo(userId);
+            criteria.andFromIdEqualTo(1);
+            criteria.andStatusEqualTo(0);
+            criteria.andConversationIdEqualTo(topic);
+            Long count = messageDOMapper.countByExample(example);
+            return count.intValue();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -38,7 +55,14 @@ public class MessageDORepositoryImpl implements MessageDORepository {
 
     public int countNotice(int userId, String topic) {
         try {
-            return messageDOMapper.selectNoticeCount(userId, topic);
+            MessageDOExample example = new MessageDOExample();
+            MessageDOExample.Criteria criteria = example.createCriteria();
+            criteria.andToIdEqualTo(userId);
+            criteria.andFromIdEqualTo(1);
+            criteria.andStatusNotEqualTo(2);
+            criteria.andConversationIdEqualTo(topic);
+            Long count = messageDOMapper.countByExample(example);
+            return count.intValue();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -65,7 +89,7 @@ public class MessageDORepositoryImpl implements MessageDORepository {
 
     public int add(MessageDO message) {
         try {
-            return messageDOMapper.insertMessage(message);
+            return messageDOMapper.insertSelective(message);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -74,7 +98,16 @@ public class MessageDORepositoryImpl implements MessageDORepository {
 
     public int countUnreadLetter(int userId, String conversationId) {
         try {
-            return messageDOMapper.selectNoticeUnreadCount(userId, conversationId);
+            MessageDOExample example = new MessageDOExample();
+            MessageDOExample.Criteria criteria = example.createCriteria();
+            criteria.andToIdEqualTo(userId);
+            criteria.andFromIdEqualTo(1);
+            criteria.andStatusEqualTo(0);
+            if(!ObjectUtils.isEmpty(conversationId)){
+                criteria.andToIdEqualTo(Integer.valueOf(conversationId));
+            }
+            Long count = messageDOMapper.countByExample(example);
+            return count.intValue();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -83,7 +116,15 @@ public class MessageDORepositoryImpl implements MessageDORepository {
 
     public int countLetter(String conversationId) {
         try {
-            return messageDOMapper.selectLetterCount(conversationId);
+            MessageDOExample example = new MessageDOExample();
+            MessageDOExample.Criteria criteria = example.createCriteria();
+            criteria.andFromIdNotEqualTo(1);
+            criteria.andStatusNotEqualTo(2);
+            if(!ObjectUtils.isEmpty(conversationId)){
+                criteria.andConversationIdEqualTo(conversationId);
+            }
+            Long count = messageDOMapper.countByExample(example);
+            return count.intValue();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -92,7 +133,13 @@ public class MessageDORepositoryImpl implements MessageDORepository {
 
     public List<MessageDO> listLetters(String conversationId, int offset, int limit) {
         try {
-            return messageDOMapper.selectLetters(conversationId, offset, limit);
+            MessageDOExample example = new MessageDOExample();
+            MessageDOExample.Criteria criteria = example.createCriteria();
+            criteria.andFromIdNotEqualTo(1);
+            criteria.andStatusNotEqualTo(2);
+            criteria.andConversationIdEqualTo(conversationId);
+            example.setOrderByClause("id desc");
+            return messageDOMapper.selectByExampleWithBLOBsWithRowbounds(example, new RowBounds(offset, limit));
         } catch (Exception e) {
             e.printStackTrace();
         }

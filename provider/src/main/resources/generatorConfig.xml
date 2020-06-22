@@ -44,19 +44,19 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table schema="community" tableName="discuss_post" domainObjectName="DiscussPostDO">
+        <table schema="community" tableName="discuss_postt" domainObjectName="DiscussPostDO">
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
         </table>
 
-        <table schema="community" tableName="comment" domainObjectName="CommentDO">
+        <table schema="community" tableName="commentt" domainObjectName="CommentDO">
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
         </table>
 
-        <table schema="community" tableName="login_ticket" domainObjectName="TicketDO">
+        <table schema="community" tableName="login_tickett" domainObjectName="TicketDO">
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
         </table>
 
-        <table schema="community" tableName="message" domainObjectName="MessageDO">
+        <table schema="community" tableName="messagee" domainObjectName="MessageDO">
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
         </table>
 

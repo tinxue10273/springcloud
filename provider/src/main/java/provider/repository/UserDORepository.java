@@ -17,6 +17,4 @@ public interface UserDORepository {
     boolean add(UserDO user) ;
 
     boolean updateStatus(int userId, int i) ;
-
-    boolean updateHeader(int userId, String headerUrl) ;
 }

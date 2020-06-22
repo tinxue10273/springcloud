@@ -26,7 +26,7 @@ public class DiscussPostConvertor {
         } else {
             return DiscussPostVO.builder()
                     .id(discussPost.getId())
-                    .userId(discussPost.getUserId())
+                    .userId(Integer.valueOf(discussPost.getUserId()))
                     .title(discussPost.getTitle())
                     .content(discussPost.getContent())
                     .type(discussPost.getType())
@@ -44,7 +44,7 @@ public class DiscussPostConvertor {
         } else {
             return DiscussPostDO.builder()
                     .id(discussPost.getId())
-                    .userId(discussPost.getUserId())
+                    .userId(discussPost.getUserId() + "")
                     .title(discussPost.getTitle())
                     .content(discussPost.getContent())
                     .type(discussPost.getType())
