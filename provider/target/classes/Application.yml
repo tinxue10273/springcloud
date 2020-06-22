@@ -1,0 +1,61 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8083/eureka/
+    enabled: true
+community:
+  path:
+    domain: http://localhost:8080
+    upload: /Users/tenfar/Desktop/community/image
+mybatis:
+  configuration:
+    mapUnderscoreToCamelCase: true
+    useGeneratedKeys: true
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: provider/domain
+server:
+  port: 8080
+  servlet:
+    context-path: /cycle/provider
+spring:
+  data:
+    elasticsearch:
+      cluster-name: cycle
+      cluster-nodes: 127.0.0.1:9300
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      idle-timeout: 30000
+      maximum-pool-size: 15
+      minimum-idle: 5
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://localhost:3306/community?useUnicode=true&zeroDateTimeBehavior=CONVERT_TO_NULL&autoReconnect=true&useSSL=false&serverTimezone=GMT%2B8
+    username: root
+    password: www1027325253
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      auto-commit-interval: 3000
+      enable-auto-commit: true
+      group-id: community-consumer-group
+  mail:
+    host: smtp.163.com
+    password: www1027325253
+    port: 465
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+    protocol: smtps
+    username: 13073625069@163.com
+  redis:
+    database: 11
+    host: localhost
+    port: 6379
+  application:
+    name: provider
+logging:
+  level:
+    root: info
+
