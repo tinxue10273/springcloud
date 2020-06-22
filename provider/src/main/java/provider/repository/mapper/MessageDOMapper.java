@@ -1,37 +1,31 @@
 package provider.repository.mapper;
 
-import provider.domain.MessageDO;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import provider.domain.MessageDO;
+import provider.domain.MessageDOExample;
 
-@Mapper
 public interface MessageDOMapper {
+    long countByExample(MessageDOExample example);
 
-    List<MessageDO> selectConversations(@Param("userId") int userId, @Param("offset") int offset,
-                                        @Param("limit") int limit);
+    int deleteByExample(MessageDOExample example);
 
-    int selectConversationCount(@Param("userId") int userId);
+    int insert(MessageDO record);
 
-    List<MessageDO> selectLetters(@Param("conversationId") String conversationId, @Param("offset") int offset,
-                                  @Param("limit") int limit);
+    int insertSelective(MessageDO record);
 
-    int selectLetterCount(@Param("conversationId") String conversationId);
+    List<MessageDO> selectByExampleWithBLOBsWithRowbounds(MessageDOExample example, RowBounds rowBounds);
 
-    int selectLetterUnreadCount(@Param("userId") int userId, @Param("conversationId") String conversationId);
+    List<MessageDO> selectByExampleWithBLOBs(MessageDOExample example);
 
-    int insertMessage(@Param("message") MessageDO message);
+    List<MessageDO> selectByExampleWithRowbounds(MessageDOExample example, RowBounds rowBounds);
 
-    int updateStatus(@Param("ids") List<Integer> ids, @Param("status") int status);
+    List<MessageDO> selectByExample(MessageDOExample example);
 
-    MessageDO selectLatestNotice(@Param("userId") int userId, @Param("topic") String topic);
+    int updateByExampleSelective(@Param("record") MessageDO record, @Param("example") MessageDOExample example);
 
-    int selectNoticeCount(@Param("userId") int userId, @Param("topic") String topic);
+    int updateByExampleWithBLOBs(@Param("record") MessageDO record, @Param("example") MessageDOExample example);
 
-    int selectNoticeUnreadCount(@Param("userId") int userId, @Param("topic") String topic);
-
-    List<MessageDO> selectNotices(@Param("userId") int userId, @Param("topic") String topic,
-                                  @Param("offset") int offset, @Param("limit") int limit);
-
+    int updateByExample(@Param("record") MessageDO record, @Param("example") MessageDOExample example);
 }

@@ -1,32 +1,36 @@
 package provider.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-
+import java.io.Serializable;
 import java.util.Date;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class UserDO {
+public class UserDO implements Serializable {
+    private Integer id;
 
-    private int id;
     private String username;
+
     private String password;
+
     private String salt;
+
     private String email;
-    private int type;
-    private int status;
+
+    private Integer type;
+
+    private Integer status;
+
     private String activationCode;
+
     private String headerUrl;
+
     private Date createTime;
 
-    public int getId() {
+    private static final long serialVersionUID = 1L;
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -35,7 +39,7 @@ public class UserDO {
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.username = username == null ? null : username.trim();
     }
 
     public String getPassword() {
@@ -43,7 +47,7 @@ public class UserDO {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = password == null ? null : password.trim();
     }
 
     public String getSalt() {
@@ -51,7 +55,7 @@ public class UserDO {
     }
 
     public void setSalt(String salt) {
-        this.salt = salt;
+        this.salt = salt == null ? null : salt.trim();
     }
 
     public String getEmail() {
@@ -59,22 +63,22 @@ public class UserDO {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = email == null ? null : email.trim();
     }
 
-    public int getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -83,7 +87,7 @@ public class UserDO {
     }
 
     public void setActivationCode(String activationCode) {
-        this.activationCode = activationCode;
+        this.activationCode = activationCode == null ? null : activationCode.trim();
     }
 
     public String getHeaderUrl() {
@@ -91,7 +95,7 @@ public class UserDO {
     }
 
     public void setHeaderUrl(String headerUrl) {
-        this.headerUrl = headerUrl;
+        this.headerUrl = headerUrl == null ? null : headerUrl.trim();
     }
 
     public Date getCreateTime() {
@@ -101,21 +105,4 @@ public class UserDO {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", salt='" + salt + '\'' +
-                ", email='" + email + '\'' +
-                ", type=" + type +
-                ", status=" + status +
-                ", activationCode='" + activationCode + '\'' +
-                ", headerUrl='" + headerUrl + '\'' +
-                ", createTime=" + createTime +
-                '}';
-    }
-
 }

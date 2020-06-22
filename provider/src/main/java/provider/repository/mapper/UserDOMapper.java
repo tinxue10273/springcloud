@@ -1,23 +1,25 @@
 package provider.repository.mapper;
 
-import provider.domain.UserDO;
-import org.apache.ibatis.annotations.Mapper;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import provider.domain.UserDO;
+import provider.domain.UserDOExample;
 
-@Mapper
 public interface UserDOMapper {
+    long countByExample(UserDOExample example);
 
-    UserDO selectById(@Param("id") int id);
+    int deleteByExample(UserDOExample example);
 
-    UserDO selectByName(@Param("username") String username);
+    int insert(UserDO record);
 
-    UserDO selectByEmail(@Param("email") String email);
+    int insertSelective(UserDO record);
 
-    int insertUser(@Param("user") UserDO user);
+    List<UserDO> selectByExampleWithRowbounds(UserDOExample example, RowBounds rowBounds);
 
-    int updateStatus(@Param("id") int id, @Param("status") int status);
+    List<UserDO> selectByExample(UserDOExample example);
 
-    int updateHeader(@Param("id") int id, @Param("headerUrl") String headerUrl);
+    int updateByExampleSelective(@Param("record") UserDO record, @Param("example") UserDOExample example);
 
-    int updatePassword(@Param("id") int id, @Param("password") String password);
+    int updateByExample(@Param("record") UserDO record, @Param("example") UserDOExample example);
 }

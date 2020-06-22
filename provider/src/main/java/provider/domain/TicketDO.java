@@ -1,37 +1,34 @@
 package provider.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import java.io.Serializable;
 import java.util.Date;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@Data
-public class TicketDO {
+public class TicketDO implements Serializable {
+    private Integer id;
 
-    private int id;
-    private int userId;
+    private Integer userId;
+
     private String ticket;
-    private int status;
+
+    private Integer status;
+
     private Date expired;
 
-    public int getId() {
+    private static final long serialVersionUID = 1L;
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -40,14 +37,14 @@ public class TicketDO {
     }
 
     public void setTicket(String ticket) {
-        this.ticket = ticket;
+        this.ticket = ticket == null ? null : ticket.trim();
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -57,16 +54,5 @@ public class TicketDO {
 
     public void setExpired(Date expired) {
         this.expired = expired;
-    }
-
-    @Override
-    public String toString() {
-        return "LoginTicket{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", ticket='" + ticket + '\'' +
-                ", status=" + status +
-                ", expired=" + expired +
-                '}';
     }
 }

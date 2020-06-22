@@ -2,8 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ec0a3c34-54ec-4804-b79f-03dd7d3d839c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/provider/src/main/java/provider/domain/CommentDO.java" beforeDir="false" afterPath="$PROJECT_DIR$/provider/src/main/java/provider/domain/CommentDO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/provider/src/main/java/provider/domain/DiscussPostDO.java" beforeDir="false" afterPath="$PROJECT_DIR$/provider/src/main/java/provider/domain/DiscussPostDO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/provider/src/main/java/provider/domain/MessageDO.java" beforeDir="false" afterPath="$PROJECT_DIR$/provider/src/main/java/provider/domain/MessageDO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/provider/src/main/java/provider/domain/TicketDO.java" beforeDir="false" afterPath="$PROJECT_DIR$/provider/src/main/java/provider/domain/TicketDO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/provider/src/main/java/provider/domain/UserDO.java" beforeDir="false" afterPath="$PROJECT_DIR$/provider/src/main/java/provider/domain/UserDO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/provider/src/main/java/provider/repository/mapper/CommentDOMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/provider/src/main/java/provider/repository/mapper/CommentDOMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/provider/src/main/java/provider/repository/mapper/DiscussPostDOMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/provider/src/main/java/provider/repository/mapper/DiscussPostDOMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/provider/src/main/java/provider/repository/mapper/MessageDOMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/provider/src/main/java/provider/repository/mapper/MessageDOMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/provider/src/main/java/provider/repository/mapper/UserDOMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/provider/src/main/java/provider/repository/mapper/UserDOMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/provider/src/main/resources/mapper/CommentDOMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/provider/src/main/resources/mapper/DiscussPostDOMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/provider/src/main/resources/mapper/MessageDOMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/provider/src/main/resources/mapper/UserDOMapper.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,7 +169,7 @@
       <workItem from="1591085827275" duration="585000" />
       <workItem from="1591154412012" duration="30000" />
       <workItem from="1592814848525" duration="1295000" />
-      <workItem from="1592835375492" duration="5890000" />
+      <workItem from="1592835375492" duration="6717000" />
     </task>
     <servers />
   </component>
@@ -197,34 +209,34 @@
     <state x="628" y="281" key="FileChooserDialogImpl/-1920.23.1920.1057/0.0.1680.1050@0.0.1680.1050" timestamp="1589795429191" />
     <state x="628" y="298" key="FileChooserDialogImpl/-1920.23.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1588824825014" />
     <state x="628" y="281" key="FileChooserDialogImpl/0.0.1680.1050@0.0.1680.1050" timestamp="1592838260815" />
-    <state width="1638" height="288" key="GridCell.Tab.0.bottom" timestamp="1592839773625">
+    <state width="1638" height="213" key="GridCell.Tab.0.bottom" timestamp="1592842658670">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
     <state width="1638" height="290" key="GridCell.Tab.0.bottom/-1920.0.1920.1080/0.0.1680.1050@0.0.1680.1050" timestamp="1589789019266" />
     <state width="1638" height="151" key="GridCell.Tab.0.bottom/-1920.0.1920.1080/0.23.1680.1027@0.23.1680.1027" timestamp="1591085446987" />
     <state width="1638" height="224" key="GridCell.Tab.0.bottom/-1920.23.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1589721320532" />
-    <state width="1638" height="288" key="GridCell.Tab.0.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1592839773625" />
-    <state width="1638" height="288" key="GridCell.Tab.0.center" timestamp="1592839773624">
+    <state width="1638" height="213" key="GridCell.Tab.0.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1592842658670" />
+    <state width="1638" height="213" key="GridCell.Tab.0.center" timestamp="1592842658668">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
     <state width="1638" height="290" key="GridCell.Tab.0.center/-1920.0.1920.1080/0.0.1680.1050@0.0.1680.1050" timestamp="1589789019263" />
     <state width="1638" height="151" key="GridCell.Tab.0.center/-1920.0.1920.1080/0.23.1680.1027@0.23.1680.1027" timestamp="1591085446984" />
     <state width="1638" height="224" key="GridCell.Tab.0.center/-1920.23.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1589721320532" />
-    <state width="1638" height="288" key="GridCell.Tab.0.center/0.0.1680.1050@0.0.1680.1050" timestamp="1592839773624" />
-    <state width="1638" height="288" key="GridCell.Tab.0.left" timestamp="1592839773623">
+    <state width="1638" height="213" key="GridCell.Tab.0.center/0.0.1680.1050@0.0.1680.1050" timestamp="1592842658668" />
+    <state width="1638" height="213" key="GridCell.Tab.0.left" timestamp="1592842658668">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
     <state width="1638" height="290" key="GridCell.Tab.0.left/-1920.0.1920.1080/0.0.1680.1050@0.0.1680.1050" timestamp="1589789019262" />
     <state width="1638" height="151" key="GridCell.Tab.0.left/-1920.0.1920.1080/0.23.1680.1027@0.23.1680.1027" timestamp="1591085446983" />
     <state width="1638" height="224" key="GridCell.Tab.0.left/-1920.23.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1589721320531" />
-    <state width="1638" height="288" key="GridCell.Tab.0.left/0.0.1680.1050@0.0.1680.1050" timestamp="1592839773623" />
-    <state width="1638" height="288" key="GridCell.Tab.0.right" timestamp="1592839773625">
+    <state width="1638" height="213" key="GridCell.Tab.0.left/0.0.1680.1050@0.0.1680.1050" timestamp="1592842658668" />
+    <state width="1638" height="213" key="GridCell.Tab.0.right" timestamp="1592842658669">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
     <state width="1638" height="290" key="GridCell.Tab.0.right/-1920.0.1920.1080/0.0.1680.1050@0.0.1680.1050" timestamp="1589789019265" />
     <state width="1638" height="151" key="GridCell.Tab.0.right/-1920.0.1920.1080/0.23.1680.1027@0.23.1680.1027" timestamp="1591085446986" />
     <state width="1638" height="224" key="GridCell.Tab.0.right/-1920.23.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1589721320532" />
-    <state width="1638" height="288" key="GridCell.Tab.0.right/0.0.1680.1050@0.0.1680.1050" timestamp="1592839773624" />
+    <state width="1638" height="213" key="GridCell.Tab.0.right/0.0.1680.1050@0.0.1680.1050" timestamp="1592842658669" />
     <state width="1638" height="288" key="GridCell.Tab.1.bottom" timestamp="1592839773627">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
@@ -285,10 +297,10 @@
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state width="506" height="467" key="SwitcherDM/-1920.23.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1588834902922" />
-    <state x="440" y="265" key="Vcs.Push.Dialog.v2" timestamp="1592841238777">
+    <state x="440" y="265" key="Vcs.Push.Dialog.v2" timestamp="1592842350776">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state x="440" y="265" key="Vcs.Push.Dialog.v2/0.0.1680.1050@0.0.1680.1050" timestamp="1592841238777" />
+    <state x="440" y="265" key="Vcs.Push.Dialog.v2/0.0.1680.1050@0.0.1680.1050" timestamp="1592842350776" />
     <state x="509" y="223" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1588665933137">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>

@@ -1,48 +1,43 @@
 package provider.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-
+import java.io.Serializable;
 import java.util.Date;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class DiscussPostDO {
+public class DiscussPostDO implements Serializable {
+    private Integer id;
 
-    private int id;
-
-    private int userId;
+    private String userId;
 
     private String title;
 
-    private String content;
+    private Integer type;
 
-    private int type;
-
-    private int status;
+    private Integer status;
 
     private Date createTime;
 
-    private int commentCount;
+    private Integer commentCount;
 
-    private double score;
+    private Double score;
 
-    public int getId() {
+    private String content;
+
+    private static final long serialVersionUID = 1L;
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUserId(String userId) {
+        this.userId = userId == null ? null : userId.trim();
     }
 
     public String getTitle() {
@@ -50,30 +45,22 @@ public class DiscussPostDO {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.title = title == null ? null : title.trim();
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public int getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -85,19 +72,27 @@ public class DiscussPostDO {
         this.createTime = createTime;
     }
 
-    public int getCommentCount() {
+    public Integer getCommentCount() {
         return commentCount;
     }
 
-    public void setCommentCount(int commentCount) {
+    public void setCommentCount(Integer commentCount) {
         this.commentCount = commentCount;
     }
 
-    public double getScore() {
+    public Double getScore() {
         return score;
     }
 
-    public void setScore(double score) {
+    public void setScore(Double score) {
         this.score = score;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
     }
 }

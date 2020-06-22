@@ -1,78 +1,72 @@
 package provider.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-
+import java.io.Serializable;
 import java.util.Date;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class CommentDO {
+public class CommentDO implements Serializable {
+    private Integer id;
 
-    private int id;
-    private int userId;
-    private int entityType;
-    private int entityId;
-    private int targetId;
-    private String content;
-    private int status;
+    private Integer userId;
+
+    private Integer entityType;
+
+    private Integer entityId;
+
+    private Integer targetId;
+
+    private Integer status;
+
     private Date createTime;
 
-    public int getId() {
+    private String content;
+
+    private static final long serialVersionUID = 1L;
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
-    public int getEntityType() {
+    public Integer getEntityType() {
         return entityType;
     }
 
-    public void setEntityType(int entityType) {
+    public void setEntityType(Integer entityType) {
         this.entityType = entityType;
     }
 
-    public int getEntityId() {
+    public Integer getEntityId() {
         return entityId;
     }
 
-    public void setEntityId(int entityId) {
+    public void setEntityId(Integer entityId) {
         this.entityId = entityId;
     }
 
-    public int getTargetId() {
+    public Integer getTargetId() {
         return targetId;
     }
 
-    public void setTargetId(int targetId) {
+    public void setTargetId(Integer targetId) {
         this.targetId = targetId;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -84,17 +78,11 @@ public class CommentDO {
         this.createTime = createTime;
     }
 
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", entityType=" + entityType +
-                ", entityId=" + entityId +
-                ", targetId=" + targetId +
-                ", content='" + content + '\'' +
-                ", status=" + status +
-                ", createTime=" + createTime +
-                '}';
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
     }
 }

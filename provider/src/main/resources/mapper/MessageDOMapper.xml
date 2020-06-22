@@ -1,122 +1,256 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="provider.repository.mapper.MessageDOMapper">
-
-    <sql id="selectFields">
-        id, from_id, to_id, conversation_id, content, status, create_time
-    </sql>
-
-    <sql id="insertFields">
-        from_id, to_id, conversation_id, content, status, create_time
-    </sql>
-
-    <select id="selectConversations" resultType="provider.domain.MessageDO">
-        select <include refid="selectFields"></include>
-        from message
-        where id in (
-            select max(id) from message
-            where status != 2
-            and from_id != 1
-            and (from_id = #{userId} or to_id = #{userId})
-            group by conversation_id
-        )
-        order by id desc
-        limit #{offset}, #{limit}
-    </select>
-
-    <select id="selectConversationCount" resultType="int">
-        select count(m.maxid) from (
-            select max(id) as maxid from message
-            where status != 2
-            and from_id != 1
-            and (from_id = #{userId} or to_id = #{userId})
-            group by conversation_id
-        ) as m
-    </select>
-
-    <select id="selectLetters" resultType="provider.domain.MessageDO">
-        select <include refid="selectFields"></include>
-        from message
-        where status != 2
-        and from_id != 1
-        and conversation_id = #{conversationId}
-        order by id desc
-        limit #{offset}, #{limit}
-    </select>
-
-    <select id="selectLetterCount" resultType="int">
-        select count(id)
-        from message
-        where status != 2
-        and from_id != 1
-        and conversation_id = #{conversationId}
-    </select>
-
-    <select id="selectLetterUnreadCount" resultType="int">
-        select count(id)
-        from message
-        where status = 0
-        and from_id != 1
-        and to_id = #{userId}
-        <if test="conversationId!=null">
-            and conversation_id = #{conversationId}
+  <resultMap id="BaseResultMap" type="provider.domain.MessageDO">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="from_id" jdbcType="INTEGER" property="fromId" />
+    <result column="to_id" jdbcType="INTEGER" property="toId" />
+    <result column="conversation_id" jdbcType="VARCHAR" property="conversationId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="provider.domain.MessageDO">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
         </if>
-    </select>
-
-    <insert id="insertMessage" parameterType="provider.domain.MessageDO" keyProperty="id">
-        insert into message(<include refid="insertFields"></include>)
-        values(#{fromId},#{toId},#{conversationId},#{content},#{status},#{createTime})
-    </insert>
-
-    <update id="updateStatus">
-        update message set status = #{status}
-        where id in
-        <foreach collection="ids" item="id" open="(" separator="," close=")">
-            #{id}
-        </foreach>
-    </update>
-
-    <select id="selectLatestNotice" resultType="provider.domain.MessageDO">
-        select <include refid="selectFields"></include>
-        from message
-        where id in (
-            select max(id) from message
-            where status != 2
-            and from_id = 1
-            and to_id = #{userId}
-            and conversation_id = #{topic}
-        )
-    </select>
-
-    <select id="selectNoticeCount" resultType="int">
-        select count(id) from message
-        where status != 2
-        and from_id = 1
-        and to_id = #{userId}
-        and conversation_id = #{topic}
-    </select>
-
-    <select id="selectNoticeUnreadCount" resultType="int">
-        select count(id) from message
-        where status = 0
-        and from_id = 1
-        and to_id = #{userId}
-        <if test="topic!=null">
-            and conversation_id = #{topic}
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
         </if>
-    </select>
-
-    <select id="selectNotices" resultType="provider.domain.MessageDO">
-        select <include refid="selectFields"></include>
-        from message
-        where status != 2
-        and from_id = 1
-        and to_id = #{userId}
-        and conversation_id = #{topic}
-        order by create_time desc
-        limit #{offset}, #{limit}
-    </select>
-
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, from_id, to_id, conversation_id, `status`, create_time
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="provider.domain.MessageDOExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from message
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="provider.domain.MessageDOExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from message
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="provider.domain.MessageDOExample">
+    delete from message
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="provider.domain.MessageDO" useGeneratedKeys="true">
+    insert into message (from_id, to_id, conversation_id, 
+      `status`, create_time, content
+      )
+    values (#{fromId,jdbcType=INTEGER}, #{toId,jdbcType=INTEGER}, #{conversationId,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="provider.domain.MessageDO" useGeneratedKeys="true">
+    insert into message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fromId != null">
+        from_id,
+      </if>
+      <if test="toId != null">
+        to_id,
+      </if>
+      <if test="conversationId != null">
+        conversation_id,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="fromId != null">
+        #{fromId,jdbcType=INTEGER},
+      </if>
+      <if test="toId != null">
+        #{toId,jdbcType=INTEGER},
+      </if>
+      <if test="conversationId != null">
+        #{conversationId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="provider.domain.MessageDOExample" resultType="java.lang.Long">
+    select count(*) from message
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update message
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.fromId != null">
+        from_id = #{record.fromId,jdbcType=INTEGER},
+      </if>
+      <if test="record.toId != null">
+        to_id = #{record.toId,jdbcType=INTEGER},
+      </if>
+      <if test="record.conversationId != null">
+        conversation_id = #{record.conversationId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        `status` = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update message
+    set id = #{record.id,jdbcType=INTEGER},
+      from_id = #{record.fromId,jdbcType=INTEGER},
+      to_id = #{record.toId,jdbcType=INTEGER},
+      conversation_id = #{record.conversationId,jdbcType=VARCHAR},
+      `status` = #{record.status,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update message
+    set id = #{record.id,jdbcType=INTEGER},
+      from_id = #{record.fromId,jdbcType=INTEGER},
+      to_id = #{record.toId,jdbcType=INTEGER},
+      conversation_id = #{record.conversationId,jdbcType=VARCHAR},
+      `status` = #{record.status,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="provider.domain.MessageDOExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from message
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleWithRowbounds" parameterType="provider.domain.MessageDOExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from message
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
 </mapper>

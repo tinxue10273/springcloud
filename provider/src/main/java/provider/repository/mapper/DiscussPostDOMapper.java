@@ -1,29 +1,31 @@
 package provider.repository.mapper;
 
-import provider.domain.DiscussPostDO;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import provider.domain.DiscussPostDO;
+import provider.domain.DiscussPostDOExample;
 
-@Mapper
 public interface DiscussPostDOMapper {
+    long countByExample(DiscussPostDOExample example);
 
-    List<DiscussPostDO> selectDiscussPosts(@Param("userId") int userId, @Param("offset") int offset,
-                                           @Param("limit") int limit);
+    int deleteByExample(DiscussPostDOExample example);
 
-    int selectDiscussPostRows(@Param("userId") int userId);
+    int insert(DiscussPostDO record);
 
-    int insertDiscussPost(@Param("DiscussPostDO") DiscussPostDO discussPost);
+    int insertSelective(DiscussPostDO record);
 
-    DiscussPostDO selectDiscussPostById(@Param("id") int id);
+    List<DiscussPostDO> selectByExampleWithBLOBsWithRowbounds(DiscussPostDOExample example, RowBounds rowBounds);
 
-    int updateCommentCount(@Param("id") int id, @Param("commentCount") int commentCount);
+    List<DiscussPostDO> selectByExampleWithBLOBs(DiscussPostDOExample example);
 
-    int updateType(@Param("id") int id, @Param("type") int type);
+    List<DiscussPostDO> selectByExampleWithRowbounds(DiscussPostDOExample example, RowBounds rowBounds);
 
-    int updateStatus(@Param("id") int id, @Param("status") int status);
+    List<DiscussPostDO> selectByExample(DiscussPostDOExample example);
 
-    int updateScore(@Param("id") int id, @Param("score") double score);
+    int updateByExampleSelective(@Param("record") DiscussPostDO record, @Param("example") DiscussPostDOExample example);
 
+    int updateByExampleWithBLOBs(@Param("record") DiscussPostDO record, @Param("example") DiscussPostDOExample example);
+
+    int updateByExample(@Param("record") DiscussPostDO record, @Param("example") DiscussPostDOExample example);
 }
