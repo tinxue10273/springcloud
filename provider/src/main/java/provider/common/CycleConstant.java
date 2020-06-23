@@ -15,17 +15,17 @@ public class CycleConstant {
     /**
      * 实体类型: 帖子
      */
-    public static final Byte ENTITY_TYPE_POST = 1;
+    public static final Integer ENTITY_TYPE_POST = 1;
 
     /**
      * 实体类型: 评论
      */
-    public static final Byte ENTITY_TYPE_COMMENT = 2;
+    public static final Integer ENTITY_TYPE_COMMENT = 2;
 
     /**
      * 实体类型: 用户
      */
-    public static final Byte ENTITY_TYPE_USER = 3;
+    public static final Integer ENTITY_TYPE_USER = 3;
 
     /**
      * 主题: 评论

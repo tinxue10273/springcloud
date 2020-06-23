@@ -73,7 +73,6 @@ public class MessageService {
         Integer fromId = hostHolder.getUser().getId();
         return BaseResponse.builder().success(true).result(add(MessageDO.builder().toId(toId).fromId(fromId)
                 .content(request.getContent()).createTime(new Date()).build())).build();
-
     }
 
     public int add(MessageDO message) {

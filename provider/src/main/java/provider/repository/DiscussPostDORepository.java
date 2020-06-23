@@ -4,6 +4,7 @@ import provider.domain.DiscussPostDO;
 import provider.vo.DiscussPostVO;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @authorgouhuo on 2020/04/27.
@@ -20,4 +21,6 @@ public interface DiscussPostDORepository {
     int countByUser(int userId);
 
     List<DiscussPostDO> list(int userId, int offset, int limit, int orderMode);
+
+    List<DiscussPostDO> list(Set<Integer> postIds);
 }

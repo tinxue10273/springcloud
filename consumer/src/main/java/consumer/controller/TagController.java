@@ -16,7 +16,7 @@ public class TagController {
     @Autowired
     private TagService tagService;
 
-    @RequestMapping(path = "/tag/list", method = RequestMethod.GET)
+    @RequestMapping(path = "tag/list", method = RequestMethod.GET)
     public BaseResponse getIndexPage() {
         return tagService.listTag();
     }

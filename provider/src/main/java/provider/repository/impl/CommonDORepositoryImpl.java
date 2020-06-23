@@ -17,8 +17,13 @@ import java.util.List;
 @Repository
 @Slf4j
 public class CommonDORepositoryImpl implements CommonDORepository {
-    @Autowired
+
     private CommentDOMapper commentDOMapper;
+
+    @Autowired
+    public CommonDORepositoryImpl(CommentDOMapper commentDOMapper){
+       this.commentDOMapper  = commentDOMapper;
+    }
 
     public CommentDO get(int id) {
         try {

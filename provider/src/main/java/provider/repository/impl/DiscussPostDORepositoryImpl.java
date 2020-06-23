@@ -11,7 +11,9 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @authorgouhuo on 2020/04/27.
@@ -19,8 +21,14 @@ import java.util.List;
 @Repository
 @Slf4j
 public class DiscussPostDORepositoryImpl implements DiscussPostDORepository {
+
+    private final DiscussPostDOMapper discussPostDOMapper;
+
     @Autowired
-    private DiscussPostDOMapper discussPostDOMapper;
+    public DiscussPostDORepositoryImpl(DiscussPostDOMapper discussPostDOMapper){
+        this.discussPostDOMapper = discussPostDOMapper;
+    }
+
 
     public int updateCommentCount(int entityId, int count) {
         try {
@@ -72,7 +80,7 @@ public class DiscussPostDORepositoryImpl implements DiscussPostDORepository {
 
     public boolean insert(DiscussPostDO post) {
         try {
-            return 0 == discussPostDOMapper.insertSelective(post);
+            return 1 == discussPostDOMapper.insertSelective(post);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -96,11 +104,34 @@ public class DiscussPostDORepositoryImpl implements DiscussPostDORepository {
         try {
             DiscussPostDOExample example = new DiscussPostDOExample();
             DiscussPostDOExample.Criteria criteria = example.createCriteria();
-            criteria.andUserIdEqualTo(userId + "");
+            if(0 != userId){
+                criteria.andUserIdEqualTo(userId + "");
+            }
+            example.setOrderByClause("id desc");
             return discussPostDOMapper.selectByExampleWithBLOBsWithRowbounds(example, new RowBounds(offset, limit));
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public List<DiscussPostDO> list(Set<Integer> postIds) {
+        List<DiscussPostDO> discussPostDOS = new ArrayList<>();
+        DiscussPostDOExample example = new DiscussPostDOExample();
+        DiscussPostDOExample.Criteria criteria = example.createCriteria();
+        for(Integer postId : postIds){
+            criteria.andIdEqualTo(postId);
+            List<DiscussPostDO> discussPostDOList = null;
+            try {
+               discussPostDOList  = discussPostDOMapper.selectByExample(example);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if(ObjectUtils.isEmpty(discussPostDOList)){
+                continue;
+            }
+            discussPostDOS.addAll(discussPostDOList);
+        }
+        return discussPostDOS;
     }
 }

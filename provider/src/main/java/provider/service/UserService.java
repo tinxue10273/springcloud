@@ -161,7 +161,7 @@ public class UserService {
         cookie.setPath(contextPath);
         cookie.setMaxAge(expiredSeconds);
         response.addCookie(cookie);
-        return BaseResponse.builder().success(true).build();
+        return BaseResponse.builder().success(true).result(ticketVO.getTicket()).build();
     }
 
     private BaseResponse login(String username, String password, Long expiredSeconds) {
@@ -248,9 +248,6 @@ public class UserService {
                 .kaptchaOwner(kaptchaOwner).build()).build();
     }
 
-    public BaseResponse setUrl(UserRequest request) {
-        return BaseResponse.builder().success(true).build();
-    }
 
     public BaseResponse getProfilePage(UserRequest request) {
         UserVO user = convertorVO(getByname(request.getUser().getUsername()));

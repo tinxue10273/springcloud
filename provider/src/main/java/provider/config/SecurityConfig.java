@@ -45,12 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                )
                .antMatchers(
                        "/discuss/top",
-                       "/discuss/wonderful"
-               )
-               .hasAnyAuthority(
-                       AUTHORITY_MODERATOR
-               )
-               .antMatchers(
+                       "/discuss/wonderful",
                        "/discuss/delete",
                        "/data/**",
                        "/actuator/**"

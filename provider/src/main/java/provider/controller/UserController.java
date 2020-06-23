@@ -23,15 +23,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    // 更新头像路径
-    @RequestMapping(path = "/url", method = RequestMethod.POST)
-    @ResponseBody
-    public BaseResponse updateHeaderUrl(@Valid @RequestBody UserRequest request,
-                                  HttpServletRequest servletRequest) {
-        return userService.setUrl(request);
-    }
-
-
     // 个人主页
     @RequestMapping(path = "/profile", method = RequestMethod.POST)
     public BaseResponse getProfilePage(@Valid @RequestBody UserRequest request,
