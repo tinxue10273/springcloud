@@ -153,7 +153,6 @@ public class DiscussPostService {
 
                 long likeCount = likeService.count(ENTITY_TYPE_POST, post.getId());
                 map.put("likeCount", likeCount);
-
                 discussPosts.add(map);
             }
         }

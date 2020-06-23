@@ -3,7 +3,6 @@ package provider.service;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,6 @@ import provider.common.HostHolder;
 import provider.common.JsonTool;
 import provider.common.MailClient;
 import provider.common.RedisKeyUtil;
-import provider.domain.TicketDO;
 import provider.domain.UserDO;
 import provider.repository.impl.UserDORepositoryImpl;
 import provider.request.ActivationRequest;
@@ -28,6 +26,8 @@ import provider.vo.ProfileVO;
 import provider.vo.TicketVO;
 import provider.vo.UserVO;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -47,17 +47,15 @@ import static provider.convertor.UserConvertor.convertorVO;
 @Service
 public class UserService {
 
+    private String domain = "http://localhost:8080";
+
+    private String contextPath =  "";
+
     @Autowired
     private UserDORepositoryImpl userDORepository;
 
     @Autowired
     private MailClient mailClient;
-
-    @Value("${community.path.domain}")
-    private String domain;
-
-    @Value("${server.servlet.context-path}")
-    private String contextPath;
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -142,7 +140,7 @@ public class UserService {
         }
     }
 
-    public BaseResponse login(LoginRequest request){
+    public BaseResponse login(LoginRequest request, HttpServletResponse response){
         String kaptcha = null;
         String kaptchaOwner = request.getKaptchaOwner();
         String idenCode = request.getIdenCode();
@@ -154,7 +152,16 @@ public class UserService {
             return CycleErrorCode.IDENTIFY_CODE_ERROE.getResponse();
         }
         Integer expiredSeconds = request.getRemember() ?  REMEMBER_EXPIRED_SECONDS : DEFAULT_EXPIRED_SECONDS;
-        return login(request.getUserName(), request.getPassword(), Long.valueOf(expiredSeconds));
+        BaseResponse baseResponse = login(request.getUserName(), request.getPassword(), Long.valueOf(expiredSeconds));
+        if(!baseResponse.isSuccess()){
+            return baseResponse;
+        }
+        TicketVO ticketVO = (TicketVO) baseResponse.getResult();
+        Cookie cookie = new Cookie("ticket", ticketVO.getTicket());
+        cookie.setPath(contextPath);
+        cookie.setMaxAge(expiredSeconds);
+        response.addCookie(cookie);
+        return BaseResponse.builder().success(true).build();
     }
 
     private BaseResponse login(String username, String password, Long expiredSeconds) {
@@ -201,11 +208,6 @@ public class UserService {
         TicketVO ticketVO = JsonTool.fromJson((String) redisTemplate.opsForValue().get(redisKey), TicketVO.class);
         ticketVO.setStatus(1);
         redisTemplate.opsForValue().set(redisKey, JsonTool.toJson(ticket));
-    }
-
-    public TicketVO getTicket(String ticket) {
-        String redisKey = RedisKeyUtil.getTicketKey(ticket);
-        return JsonTool.fromJson((String) redisTemplate.opsForValue().get(redisKey), TicketVO.class);
     }
 
     public UserVO findUserByName(String username) {
@@ -274,7 +276,4 @@ public class UserService {
         return userDORepository.getByName(name);
     }
 
-    public TicketDO findLoginTicket(String ticket) {
-        return null;
-    }
 }

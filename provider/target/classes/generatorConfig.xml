@@ -60,10 +60,9 @@
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
         </table>
 
-        <table schema="community" tableName="user" domainObjectName="UserDO">
+        <table schema="community" tableName="user11" domainObjectName="UserDO">
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
         </table>
-
     </context>
 
 </generatorConfiguration>

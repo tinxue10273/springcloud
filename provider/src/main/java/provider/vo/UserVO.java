@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * @authorgouhuo on 2020/04/27.
@@ -17,6 +18,7 @@ import java.util.Date;
 @Builder
 public class UserVO implements Serializable {
     private int id;
+    private Set<String> tags;
     private String username;
     private String password;
     private String salt;

@@ -11,12 +11,11 @@ public class CookieTool {
         if (request == null || name == null) {
             return CycleErrorCode.REQUEST_MISSING.getResponse("请求或用户名名字不能为空");
         }
-
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals(name)) {
-                    return BaseResponse.builder().success(true).result(cookie).build();
+                    return BaseResponse.builder().success(true).result(cookie.getValue()).build();
                 }
             }
         }

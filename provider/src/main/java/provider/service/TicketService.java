@@ -1,12 +1,12 @@
 package provider.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import io.micrometer.core.instrument.util.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import provider.common.JsonTool;
+import provider.common.RedisKeyUtil;
 import provider.convertor.UserConvertor;
 import provider.domain.UserDO;
 import provider.repository.impl.UserDORepositoryImpl;
@@ -46,8 +46,8 @@ public class TicketService {
         calendar.add(Calendar.DAY_OF_MONTH, 1);
         date = calendar.getTime();
         TicketVO ticketVO = TicketVO.builder().ticket(ticket).userId(user.getId()).expired(date).status(1).build();
-        /*redisTemplate.execute(jedis -> jedis.setex(ticket,
-                24 * 3600, JsonTool.toJson(ticketVO)));*/
+        String redisKey = RedisKeyUtil.getTicketKey(ticket);
+        redisTemplate.opsForValue().set(redisKey, ticket, 24 * 3600);
         return ticket;
     }
 
@@ -55,11 +55,9 @@ public class TicketService {
         if(ObjectUtils.isEmpty(ticket)){
             return null;
         }
-        /*String ticketStr = redisTemplate.execute(jedis -> jedis.get(ticket));*/
-        String ticketStr = "";
+        String ticketStr = (String) redisTemplate.opsForValue().get(ticket);
         return Optional.ofNullable(ticketStr).map(t -> JsonTool.fromJson(t, new TypeReference<TicketVO>() {}))
                 .orElse(null);
-
     }
 
     public TicketVO setTicket(String ticket) {

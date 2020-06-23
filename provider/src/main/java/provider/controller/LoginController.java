@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 /**
@@ -26,8 +27,8 @@ public class LoginController {
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse login(@Valid @RequestBody LoginRequest request,
-                              HttpServletRequest servletRequest) {
-        return userService.login(request);
+                              HttpServletResponse response) {
+        return userService.login(request, response);
     }
 
     @RequestMapping(path = "/logout", method = RequestMethod.GET)

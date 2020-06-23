@@ -8,10 +8,12 @@ import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import provider.common.CookieUtil;
+import provider.common.CookieTool;
 import provider.common.HostHolder;
-import provider.domain.TicketDO;
+import provider.response.BaseResponse;
+import provider.service.TicketService;
 import provider.service.UserService;
+import provider.vo.TicketVO;
 import provider.vo.UserVO;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,29 +27,28 @@ public class LoginTicketInterceptor implements HandlerInterceptor {
     private UserService userService;
 
     @Autowired
+    private TicketService ticketService;
+
+    @Autowired
     private HostHolder hostHolder;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        // 从cookie中获取凭证
-        String ticket = CookieUtil.getValue(request, "ticket");
-
+        BaseResponse baseResponse = CookieTool.getValue(request, "ticket");
+        if(!baseResponse.isSuccess()){
+            return false;
+        }
+        String ticket = (String) baseResponse.getResult();
         if (ticket != null) {
-            // 查询凭证
-            TicketDO loginTicket = userService.findLoginTicket(ticket);
-            // 检查凭证是否有效
-            if (loginTicket != null && loginTicket.getStatus() == 0 && loginTicket.getExpired().after(new Date())) {
-                // 根据凭证查询用户
-                UserVO user = userService.findUserById(loginTicket.getUserId());
-                // 在本次请求中持有用户
+            TicketVO ticketVO = ticketService.getTicketVO(ticket);
+            if (ticketVO != null && ticketVO.getStatus() == 0 && ticketVO.getExpired().after(new Date())) {
+                UserVO user = userService.findUserById(ticketVO.getUserId());
                 hostHolder.setUser(user);
-                // 构建用户认证的结果,并存入SecurityContext,以便于Security进行授权.
                 Authentication authentication = new UsernamePasswordAuthenticationToken(
                         user, user.getPassword(), userService.getAuthorities(user.getId()));
                 SecurityContextHolder.setContext(new SecurityContextImpl(authentication));
             }
         }
-
         return true;
     }
 

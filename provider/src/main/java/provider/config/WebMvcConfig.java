@@ -6,7 +6,6 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import provider.interceptor.DataInterceptor;
 import provider.interceptor.LoginTicketInterceptor;
-import provider.interceptor.MessageInterceptor;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
@@ -15,16 +14,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private LoginTicketInterceptor loginTicketInterceptor;
 
     @Autowired
-    private MessageInterceptor messageInterceptor;
-
-    @Autowired
     private DataInterceptor dataInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginTicketInterceptor);
-
-        registry.addInterceptor(messageInterceptor);
 
         registry.addInterceptor(dataInterceptor);
     }

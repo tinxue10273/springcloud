@@ -5,6 +5,7 @@
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="tag" jdbcType="VARCHAR" property="tag" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -73,7 +74,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, title, `type`, `status`, create_time, comment_count, score
+    id, user_id, title, tag, `type`, `status`, create_time, comment_count, score
   </sql>
   <sql id="Blob_Column_List">
     content
@@ -115,12 +116,14 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="provider.domain.DiscussPostDO" useGeneratedKeys="true">
-    insert into discuss_post (user_id, title, `type`, 
-      `status`, create_time, comment_count, 
-      score, content)
-    values (#{userId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
-      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{commentCount,jdbcType=INTEGER}, 
-      #{score,jdbcType=DOUBLE}, #{content,jdbcType=LONGVARCHAR})
+    insert into discuss_post (user_id, title, tag, 
+      `type`, `status`, create_time, 
+      comment_count, score, content
+      )
+    values (#{userId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{tag,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{commentCount,jdbcType=INTEGER}, #{score,jdbcType=DOUBLE}, #{content,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="provider.domain.DiscussPostDO" useGeneratedKeys="true">
     insert into discuss_post
@@ -130,6 +133,9 @@
       </if>
       <if test="title != null">
         title,
+      </if>
+      <if test="tag != null">
+        tag,
       </if>
       <if test="type != null">
         `type`,
@@ -156,6 +162,9 @@
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="tag != null">
+        #{tag,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
         #{type,jdbcType=INTEGER},
@@ -195,6 +204,9 @@
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
       </if>
+      <if test="record.tag != null">
+        tag = #{record.tag,jdbcType=VARCHAR},
+      </if>
       <if test="record.type != null">
         `type` = #{record.type,jdbcType=INTEGER},
       </if>
@@ -223,6 +235,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=VARCHAR},
       title = #{record.title,jdbcType=VARCHAR},
+      tag = #{record.tag,jdbcType=VARCHAR},
       `type` = #{record.type,jdbcType=INTEGER},
       `status` = #{record.status,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -238,6 +251,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=VARCHAR},
       title = #{record.title,jdbcType=VARCHAR},
+      tag = #{record.tag,jdbcType=VARCHAR},
       `type` = #{record.type,jdbcType=INTEGER},
       `status` = #{record.status,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},

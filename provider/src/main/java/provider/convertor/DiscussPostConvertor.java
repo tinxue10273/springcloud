@@ -1,12 +1,16 @@
 package provider.convertor;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import provider.common.JsonTool;
 import provider.domain.DiscussPostDO;
 import provider.dto.DiscussPostDTO;
 import provider.vo.DiscussPostVO;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class DiscussPostConvertor {
 
@@ -24,7 +28,7 @@ public class DiscussPostConvertor {
         if (ObjectUtils.isEmpty(discussPost)) {
             return null;
         } else {
-            return DiscussPostVO.builder()
+            DiscussPostVO discussPostVO = DiscussPostVO.builder()
                     .id(discussPost.getId())
                     .userId(Integer.valueOf(discussPost.getUserId()))
                     .title(discussPost.getTitle())
@@ -35,6 +39,15 @@ public class DiscussPostConvertor {
                     .commentCount(discussPost.getCommentCount())
                     .score(discussPost.getScore())
                     .build();
+            String tagStr = discussPost.getTag();
+            Set<String> tags = null;
+            if(ObjectUtils.isEmpty(tagStr)){
+                tags = new HashSet<>();
+            }
+            tags = JsonTool.fromJson(tagStr, new TypeReference<Set<String>>() {
+            });
+            discussPostVO.setTags(tags);
+            return discussPostVO;
         }
     }
 
@@ -42,7 +55,7 @@ public class DiscussPostConvertor {
         if (ObjectUtils.isEmpty(discussPost)) {
             return null;
         } else {
-            return DiscussPostDO.builder()
+            DiscussPostDO discussPostDO = DiscussPostDO.builder()
                     .id(discussPost.getId())
                     .userId(discussPost.getUserId() + "")
                     .title(discussPost.getTitle())
@@ -53,6 +66,11 @@ public class DiscussPostConvertor {
                     .status(0)
                     .score(discussPost.getScore())
                     .build();
+            Set<String> tags = discussPost.getTags();
+            if(!ObjectUtils.isEmpty(tags)){
+                discussPostDO.setTag(JsonTool.toJson(tags));
+            }
+            return discussPostDO;
         }
     }
 

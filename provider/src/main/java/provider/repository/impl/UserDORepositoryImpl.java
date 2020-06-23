@@ -17,8 +17,12 @@ import java.util.List;
 @Repository
 @Slf4j
 public class UserDORepositoryImpl implements UserDORepository {
+    private final UserDOMapper userDOMapper;
+
     @Autowired
-    private UserDOMapper userDOMapper;
+    public UserDORepositoryImpl(UserDOMapper userDOMapper){
+        this.userDOMapper = userDOMapper;
+    }
 
     public UserDO get(Integer targetId) {
         try {
