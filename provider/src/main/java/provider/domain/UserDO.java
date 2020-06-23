@@ -31,6 +31,8 @@ public class UserDO implements Serializable {
 
     private Date createTime;
 
+    private String tag;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -111,5 +113,13 @@ public class UserDO implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag == null ? null : tag.trim();
     }
 }

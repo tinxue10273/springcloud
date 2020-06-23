@@ -17,6 +17,8 @@ public class DiscussPostDO implements Serializable {
 
     private String title;
 
+    private String tag;
+
     private Integer type;
 
     private Integer status;
@@ -53,6 +55,14 @@ public class DiscussPostDO implements Serializable {
 
     public void setTitle(String title) {
         this.title = title == null ? null : title.trim();
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag == null ? null : tag.trim();
     }
 
     public Integer getType() {

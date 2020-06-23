@@ -12,6 +12,7 @@
     <result column="activation_code" jdbcType="VARCHAR" property="activationCode" />
     <result column="header_url" jdbcType="VARCHAR" property="headerUrl" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="tag" jdbcType="VARCHAR" property="tag" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -73,7 +74,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, username, `password`, salt, email, `type`, `status`, activation_code, header_url, 
-    create_time
+    create_time, tag
   </sql>
   <select id="selectByExample" parameterType="provider.domain.UserDOExample" resultMap="BaseResultMap">
     select
@@ -98,12 +99,12 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="provider.domain.UserDO" useGeneratedKeys="true">
     insert into user1 (username, `password`, salt, 
       email, `type`, `status`, 
-      activation_code, header_url, create_time
-      )
+      activation_code, header_url, create_time, 
+      tag)
     values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{activationCode,jdbcType=VARCHAR}, #{headerUrl,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
-      )
+      #{activationCode,jdbcType=VARCHAR}, #{headerUrl,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{tag,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="provider.domain.UserDO" useGeneratedKeys="true">
     insert into user1
@@ -135,6 +136,9 @@
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="tag != null">
+        tag,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="username != null">
@@ -163,6 +167,9 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tag != null">
+        #{tag,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -205,6 +212,9 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.tag != null">
+        tag = #{record.tag,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -221,7 +231,8 @@
       `status` = #{record.status,jdbcType=INTEGER},
       activation_code = #{record.activationCode,jdbcType=VARCHAR},
       header_url = #{record.headerUrl,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      tag = #{record.tag,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -253,6 +264,5 @@
   <update id="updatePassword">
         update user set password = #{password} where id = #{id}
     </update>
-
 
 </mapper>
