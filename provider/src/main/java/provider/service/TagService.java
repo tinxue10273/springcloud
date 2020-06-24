@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import provider.common.CycleErrorCode;
 import provider.common.JsonTool;
+import provider.request.SetTagRequest;
 import provider.response.BaseResponse;
 
 import java.util.HashSet;
@@ -81,4 +83,11 @@ public class TagService {
         return discussPosts;
     }
 
+    public BaseResponse setTag(SetTagRequest request) {
+        if(ObjectUtils.isEmpty(request) || ObjectUtils.isEmpty(request.getTags())){
+            return CycleErrorCode.REQUEST_MISSING.getResponse("tags");
+        }
+        setTag(request.getTags());
+        return BaseResponse.builder().success(true).build();
+    }
 }
